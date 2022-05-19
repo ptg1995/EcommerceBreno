@@ -14,20 +14,23 @@ namespace EcommerceBreno.ProductApi.Repositories
         {
             try
             {
-                _context.Add(category);
+                _context.Categories.Add(category);
                 await _context.SaveChangesAsync();
                 return category;
             }
             catch (Exception exc)
             {
                 Console.WriteLine($"Excessão na criação de categoria:  CategoryRepository.Create: {exc}");
+                return null;
             }
-            
         }
 
         public async Task<Category> Delete(int id)
         {
-            throw new NotImplementedException();
+            Category categorieId = await GetById(id);
+            _context.Categories.Remove(categorieId);
+            await _context.SaveChangesAsync();
+            return categorieId;
         }
 
         public async Task<IEnumerable<Category>> GetAll()
@@ -39,6 +42,7 @@ namespace EcommerceBreno.ProductApi.Repositories
             catch (Exception exc)
             {
                 Console.WriteLine($"Excessão na criação de categoria:  CategoryRepository.GetAll: {exc}");
+                return null;
             }
             
         }
@@ -60,17 +64,28 @@ namespace EcommerceBreno.ProductApi.Repositories
             catch (Exception exc)
             {
                 Console.WriteLine($"Excessão na criação de categoria:  CategoryRepository.GetById: {exc}");
+                return null;
             }
         }
 
         public async Task<IEnumerable<Category>> GetCategoriesProducts()
         {
-            throw new NotImplementedException();
+            try
+            {
+                return await _context.Categories.Include(p => p.Products).ToListAsync();
+            }
+            catch (Exception exc)
+            {
+                Console.WriteLine($"Excessão na criação de categoria:  CategoryRepository.Create: {exc}");
+                return null;
+            }
         }
 
         public async Task<Category> Update(Category category)
         {
-            throw new NotImplementedException();
+            _context.Entry(category).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+            return category;
         }
     }
 }
