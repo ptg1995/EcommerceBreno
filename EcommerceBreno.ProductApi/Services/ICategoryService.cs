@@ -10,5 +10,4 @@ public interface ICategoryService
     Task AddCategory(CategoryDTO categoryDTO);
     Task UpdateCategory(CategoryDTO categoryDTO);
     Task DeleteCategory(int id);
-
 }

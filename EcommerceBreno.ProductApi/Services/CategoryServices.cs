@@ -12,7 +12,7 @@ namespace EcommerceBreno.ProductApi.Services
 
         public CategoryServices(ICategoryRepository? categoryRepository, IMapper mapper)
         {
-            this._categoryRepository = categoryRepository;
+            _categoryRepository = categoryRepository;
             _mapper = mapper;
         }
 
@@ -20,6 +20,7 @@ namespace EcommerceBreno.ProductApi.Services
         {
             var categoryEntity = _mapper.Map<Category>(categoryDTO);
             await _categoryRepository.Create(categoryEntity);
+            categoryDTO.CategoryId = categoryDTO.CategoryId;
         }
 
         public async Task DeleteCategory(int id)
